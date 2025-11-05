@@ -1,0 +1,30 @@
+
+<resources>
+    <string name="app_name">E-Commerce</string>
+    <string name="welcome">Welcome!</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="create">Register</string>
+    <string name="forgot">Forgot Password?</string>
+    <string name="full_name">Full Name</string>
+    <string name="number">Contact Number</string>
+    <string name="address">Address</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email_registered">Enter Your Registered Email</string>
+    <string name="reset">Reset Password</string>
+    <string name="back_login">Back to Login</string>
+    <string name="set_new">Set New Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm password</string>
+    <string name="submit_new_password">Submit New Password</string>
+    <string name="register">Register</string>
+    <string name="Admin">Admin</string>
+    <string name="Home">Home\n</string>
+
+    <array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </array>
+
+</resources>
