@@ -1,108 +1,138 @@
-
-package com.example.loginpage;
+package com.example.loginpage; // Or com.example.tasknest if you've refactored
 
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import java.lang.reflect.Array;
+// REMOVED: Imports for Spinner and ArrayAdapter, as they are no longer used.
+// REMOVED: Import for java.lang.reflect.Array, as it was not used.
 
 public class Register extends AppCompatActivity {
+
+    // --- Member Variables ---
+    // It's better practice to define your views and DB helper here
+    private EditText inputFullName, inputUserEmail, inputPassword;
+    private Button registerButton, buttonLoginLink;
+    private ImageView togglePasswordVisibility;
+    private MyDbHelper dbHelper;
     private SQLiteDatabase db;
+    private boolean isPasswordVisible = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        // REMOVED: EdgeToEdge.enable(this); - This is fine, but often not needed
         setContentView(R.layout.activity_register);
 
-        MyDbHelper dbHelper = new MyDbHelper(this, "login.db", null, 1);
+        // --- Database Setup ---
+        // Initialize the dbHelper and db as member variables
+        dbHelper = new MyDbHelper(this, "login.db", null, 1);
         db = dbHelper.getWritableDatabase();
 
-        ImageView backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Register.this, MainActivity.class);
-            startActivity(intent);
-        });
-        Spinner genderSpinner = findViewById(R.id.gender);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.gender,
-                R.layout.spinner_item
-        );
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        genderSpinner.setAdapter(adapter);
+        // --- View Initialization ---
+        // Find all the views from your new layout
+        inputFullName = findViewById(R.id.input_fullName);
+        inputUserEmail = findViewById(R.id.input_userEmail);
+        inputPassword = findViewById(R.id.input_password);
+        registerButton = findViewById(R.id.register_button);
+        buttonLoginLink = findViewById(R.id.button_login_link); // ADDED: This is your new "Log in" text button
+        togglePasswordVisibility = findViewById(R.id.toggle_password_visibility); // ADDED: The 'eye' icon
 
-        Button registerButton = findViewById(R.id.register_button);
-        registerButton.setOnClickListener(v -> {
-            EditText fullName = findViewById(R.id.input_fullName);
-            String fullNameText = fullName.getText().toString();
+        // REMOVED: All code for backButton and genderSpinner, as they don't exist.
 
-            Spinner gender = findViewById(R.id.gender);
-            String genderText = gender.getSelectedItem().toString();
+        // --- Click Listener for Register Button ---
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get text from the fields, .trim() removes any extra spaces
+                String fullNameText = inputFullName.getText().toString().trim();
+                String userEmailText = inputUserEmail.getText().toString().trim();
+                String passwordText = inputPassword.getText().toString().trim();
 
-            EditText userEmail = findViewById(R.id.input_userEmail);
-            String userEmailText = userEmail.getText().toString();
+                // REMOVED: All code for gender, mobile, address, and confirmPassword
 
-            EditText mobile = findViewById(R.id.inputMobile);
-            String mobileText = mobile.getText().toString();
+                // --- Validation ---
+                // A better check: Aare ANY of the fields empty?
+                if (TextUtils.isEmpty(fullNameText) || TextUtils.isEmpty(userEmailText) || TextUtils.isEmpty(passwordText)) {
+                    Toast.makeText(Register.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                    return; // Stop the code here
+                }
 
-            EditText address = findViewById(R.id.inputAddress);
-            String addressText = address.getText().toString();
+                // REMOVED: The "password does not match" check, as confirmPassword was removed.
 
-            EditText password = findViewById(R.id.input_password);
-            String passwordText = password.getText().toString();
+                // --- Database Insert ---
+                ContentValues values = new ContentValues();
+                values.put("fullName", fullNameText);
+                values.put("userEmail", userEmailText);
+                values.put("password", passwordText);
+                // REMOVED: puts for gender, mobile, and address
 
-            EditText confirmPassword = findViewById(R.id.confirm_password);
-            String confirmPasswordText = confirmPassword.getText().toString();
+                long newRowId = db.insert("users", null, values);
 
-            if(fullNameText.isEmpty() && genderText.isEmpty() && userEmailText.isEmpty() && mobileText.isEmpty() && addressText.isEmpty() && passwordText.isEmpty() && confirmPasswordText.isEmpty()) {
-                Toast.makeText(this, "Please Fill in all Fields", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if(!passwordText.equals(confirmPasswordText)) {
-                Toast.makeText(this, "Password does not match", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            ContentValues values = new ContentValues();
-            values.put("fullName", fullNameText);
-            values.put("gender", genderText);
-            values.put("userEmail", userEmailText);
-            values.put("mobile", mobileText);
-            values.put("address", addressText);
-            values.put("password", passwordText);
-
-            long newRowId = db.insert("users", null, values);
-
-            if (newRowId == -1){
-                Toast.makeText(this, "Error inserting data", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "User Created successfully", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Register.this, MainActivity.class);
-                startActivity(intent);
+                if (newRowId == -1) {
+                    Toast.makeText(Register.this, "Error creating account", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Register.this, "Account created successfully! Please log in.", Toast.LENGTH_LONG).show();
+                    // Send user back to the login screen
+                    Intent intent = new Intent(Register.this, MainActivity.class);
+                    startActivity(intent);
+                    finish(); // Close the register screen so user can't go back
+                }
             }
         });
 
+        // --- ADDED: Click Listener for the "Log in" link ---
+        buttonLoginLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Simply close this activity to go back to the login screen
+                finish();
+            }
+        });
+
+        // --- ADDED: Click Listener for the password 'eye' icon ---
+        togglePasswordVisibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                togglePasswordVisibility();
+            }
+        });
     }
-    protected void onDestroy() {
-        super.onDestroy();
-        if (db != null && db.isOpen()) {
-            db.close();
 
+    // --- ADDED: Helper method to toggle password visibility ---
+    private void togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            // Hide password
+            inputPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            togglePasswordVisibility.setImageResource(R.drawable.ic_visibility_off);
+        } else {
+            // Show password
+            inputPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            togglePasswordVisibility.setImageResource(R.drawable.ic_visibility_on);
         }
+        // Move cursor to the end
+        inputPassword.setSelection(inputPassword.getText().length());
+        isPasswordVisible = !isPasswordVisible;
+    }
 
+
+    // --- UPDATED: onDestroy ---
+    // This is a more robust way to close your database helper
+    @Override
+    protected void onDestroy() {
+        if (dbHelper != null) {
+            dbHelper.close(); // This closes the database connection
+        }
+        super.onDestroy();
     }
 }
