@@ -47,6 +47,14 @@
     <string name="Nmae">Task Name</string>
     <string name="create_new_task">Create new task</string>
 
+    <string name="app_logo">TaskNest Logo</string>
+    <string name="dashboard_title">TaskNest Dashboard</string>
+    <string name="loading_time">Loading time...</string>
+    <string name="completed_label">Completed</string>
+    <string name="pending">Pending</string>
+    <string name="todays_tasks">Today\'s Tasks</string>
+    <string name="zero">0</string>
+
     <array name="gender">
         <item>Male</item>
         <item>Female</item>

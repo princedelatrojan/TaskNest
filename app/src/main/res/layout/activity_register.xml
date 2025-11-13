@@ -13,15 +13,16 @@
     tools:context=".Register"> <!-- Make sure this context matches your Register.java file's package -->
 
     <!-- Logo Image -->
+
+    <!-- App Name Text -->
     <ImageView
         android:id="@+id/app_logo"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_tasknest_logo"
         android:layout_marginTop="60dp"
-        android:contentDescription="TaskNest Logo" />
+        android:contentDescription="TaskNest Logo"
+        android:src="@drawable/ic_tasknest_logo" />
 
-    <!-- App Name Text -->
     <TextView
         android:id="@+id/app_name_text"
         android:layout_width="wrap_content"
