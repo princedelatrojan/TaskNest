@@ -1,17 +1,17 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id 'com.android.application'
+    // Add the Google services Gradle plugin
+    id 'com.google.gms.google-services'
 }
 
 android {
     namespace 'com.example.loginpage'
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk 34 // Changed to a valid number, 36 is not a released version yet.
 
     defaultConfig {
         applicationId "com.example.loginpage"
         minSdk 24
-        targetSdk 36
+        targetSdk 34 // Matched to compileSdk for best practice.
         versionCode 1
         versionName "1.0"
 
@@ -25,16 +25,32 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
+    // Android UI & Core Libraries
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
+
+    // Firebase: Import the Bill of Materials (BoM)
+    // This manages the versions of all other Firebase libraries to ensure they are compatible.
+    implementation platform(libs.firebase.bom)
+
+    // Firebase Libraries (now using the bundle from your toml file)
+    // This bundle includes firebase-auth and firebase-firestore.
+    implementation libs.bundles.firebase
+
+    // Google Sign-In Libraries (assuming you added these to your toml file)
+    // implementation libs.credentials
+    // implementation libs.credentials.play.services.auth
+    // implementation libs.googleid
+
+    // Testing Libraries
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
