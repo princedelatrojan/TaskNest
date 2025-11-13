@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btnSaveTask" type="id">saveTask</item>
+    <item name="rbHigh" type="id">rbHigh</item>
+    <item name="rbMedium" type="id">rbMedium</item>
+    <item name="rbLow" type="id">rbLow</item>
+    <item name="priorityGroup" type="id">priority</item>
+    <item name="etTime" type="id">Time</item>
+    <item name="etDate" type="id">Date</item>
+    <item name="etTaskName" type="id">Taskname</item>
+</resources>

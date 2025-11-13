@@ -16,9 +16,9 @@
         android:id="@+id/app_logo"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_tasknest_logo"
         android:layout_marginTop="60dp"
-        android:contentDescription="TaskNest Logo" />
+        android:contentDescription="TaskNest Logo"
+        android:src="@drawable/ic_tasknest_logo" />
 
     <TextView
         android:id="@+id/app_name_text"

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="24dp"
+    android:background="#F8F9FC"
+    tools:context=".SummaryActivity">
+
+    <TextView
+        android:id="@+id/summary_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Task summary"
+        android:textColor="@color/text_dark_gray"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/poppins"
+        android:layout_marginTop="60dp"/>
+
+    <!-- Segmented Control -->
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggle_button_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:singleSelection="true"
+        app:checkedButton="@+id/button_week">
+
+        <Button
+            android:id="@+id/button_day"
+            style="@style/Widget.App.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Day"/>
+
+        <Button
+            android:id="@+id/button_week"
+            style="@style/Widget.App.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Week"/>
+
+        <Button
+            android:id="@+id/button_month"
+            style="@style/Widget.App.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Month"/>
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <!-- Summary Cards -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/input_field_background">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Tasks"
+                android:textColor="@color/text_dark_gray"
+                android:fontFamily="@font/poppins"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textColor="@color/text_dark_gray"
+                android:fontFamily="@font/poppins"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:padding="16dp"
+            android:background="@drawable/input_field_background">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed"
+                android:textColor="@color/text_dark_gray"
+                android:fontFamily="@font/poppins"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_check_circle_green"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:padding="16dp"
+            android:background="@drawable/input_field_background">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pending"
+                android:textColor="@color/text_dark_gray"
+                android:fontFamily="@font/poppins"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_cancel_red"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:padding="16dp"
+            android:text="Great job! 20% tasks completed this week."
+            android:textColor="@color/text_dark_gray"
+            android:fontFamily="@font/poppins"
+            android:textSize="16sp"
+            android:background="@drawable/input_field_background"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RelativeLayout
+        android:id="@+id/settings_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@drawable/input_field_background">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textColor="@color/text_dark_gray"
+            android:fontFamily="@font/poppins"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_forward_ios"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+</LinearLayout>

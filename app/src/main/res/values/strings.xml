@@ -21,6 +21,31 @@
     <string name="register">Register</string>
     <string name="Admin">Admin</string>
     <string name="Home">Home\n</string>
+    <string name="complete_tasks">Complete tasks</string>
+    <string name="morning_jog">Morning Jog</string>
+    <string name="date">Jul 25, 2024</string>
+    <string name="date_1">Jul 25, 2024</string>
+    <string name="Dinner">Dinner with friends</string>
+    <string name="date_2">Jul 25, 2024</string>
+    <string name="completed">Mark all as done</string>
+    <string name="Erase">Delete Task</string>
+    <string name="Save">Save Changes</string>
+    <string name="activities">Jog around the park</string>
+    <string name="date_3">Jul 25, 2024</string>
+    <string name="Details">Description</string>
+    <string name="task_name">Task Name</string>
+    <string name="activities_1">Morning Jog</string>
+    <string name="edit_task">Edit task</string>
+    <string name="save_task">Save Task</string>
+    <string name="high">High</string>
+    <string name="medium">Medium</string>
+    <string name="low">Low</string>
+    <string name="priority">Priority</string>
+    <string name="clock_time">9:00 AM</string>
+    <string name="date_4">Jul 25, 2024</string>
+    <string name="description">Description</string>
+    <string name="Nmae">Task Name</string>
+    <string name="create_new_task">Create new task</string>
 
     <array name="gender">
         <item>Male</item>
