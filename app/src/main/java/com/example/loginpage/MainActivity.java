@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // If so, skip login and go straight to Home
         if (mAuth.getCurrentUser() != null) {
             Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, Home.class));
+            startActivity(new Intent(MainActivity.this, DashboardActivity.class));
             finish();
         }
 
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                                         fullName = documentSnapshot.getString("fullName");
                                                     }
                                                     Toast.makeText(MainActivity.this, "Welcome " + fullName, Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(MainActivity.this, Home.class);
+                                                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
                                                     startActivity(intent);
                                                     finish();
                                                 }

@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoginPage">
         <activity
+            android:name=".CreateTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" />
         <activity

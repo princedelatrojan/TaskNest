@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="btnSaveTask" type="id">saveTask</item>
-    <item name="rbHigh" type="id">rbHigh</item>
-    <item name="rbMedium" type="id">rbMedium</item>
-    <item name="rbLow" type="id">rbLow</item>
-    <item name="priorityGroup" type="id">priority</item>
-    <item name="etTime" type="id">Time</item>
-    <item name="etDate" type="id">Date</item>
-    <item name="etTaskName" type="id">Taskname</item>
+    <!-- Make sure all your item tags look like this -->
+    <item type="id" name="some_id" />
+    <item type="id" name="another_id" />
+    <item type="id" name="main_fragment_container" />
+    <item type="id" name="fab_add_task" />
+    <!-- Add any other IDs you have defined in this file in the same format -->
 </resources>

@@ -1,106 +1,103 @@
-package com.example.loginpage;
+package com.example.loginpage; // Or com.example.tasknest
 
-import androidx.appcompat.app.AppCompatActivity;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
-/**
- * TaskNest Dashboard — displays live date/time, completed/pending counts,
- * and today’s task list from the local SQLite database.
- */
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+// *** FIX 1: Import BottomAppBar ***
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
+
 public class DashboardActivity extends AppCompatActivity {
 
-    private DatabaseHelper dbHelper;
-    private SQLiteDatabase db;
-
-    private TextView txtCompletedTasks, txtPendingTasks, textDateTime;
-    private ListView listTodayTasks;
-
-    private Handler handler = new Handler();
+    private Toolbar toolbar;
+    // *** FIX 2: Add a variable for the BottomAppBar ***
+    private BottomAppBar bottomAppBar;
+    private BottomNavigationView bottomNavigationView;
+    private FloatingActionButton fab;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        dbHelper = new DatabaseHelper(this);
-        db = dbHelper.getReadableDatabase();
-
-        txtCompletedTasks = findViewById(R.id.txtCompletedTasks);
-        txtPendingTasks = findViewById(R.id.txtPendingTasks);
-        listTodayTasks = findViewById(R.id.listTodayTasks);
-        textDateTime = findViewById(R.id.textDateTime);
-
-        loadDashboardData();
-        startClock();
-    }
-
-    /** Loads the dashboard data: task counts and today’s task list */
-    private void loadDashboardData() {
-        // Count completed tasks
-        Cursor cursorCompleted = db.rawQuery(
-                "SELECT COUNT(*) FROM tasks WHERE status='Completed'", null);
-        if (cursorCompleted.moveToFirst()) {
-            txtCompletedTasks.setText(cursorCompleted.getString(0));
+        // --- 1. Setup Toolbar ---
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar); // This makes the Toolbar act as the ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("TaskNest");
         }
-        cursorCompleted.close();
 
-        // Count pending tasks
-        Cursor cursorPending = db.rawQuery(
-                "SELECT COUNT(*) FROM tasks WHERE status='Pending'", null);
-        if (cursorPending.moveToFirst()) {
-            txtPendingTasks.setText(cursorPending.getString(0));
+        // --- 2. Initialize Views ---
+        // *** FIX 3: Initialize the BottomAppBar from the layout ***
+        bottomAppBar = findViewById(R.id.bottom_app_bar);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        fab = findViewById(R.id.fab_add_task);
+        fragmentManager = getSupportFragmentManager();
+
+        // --- 3. Load Default Fragment (Tasks) ---
+        if (savedInstanceState == null) {
+            loadFragment(new TasksFragment());
         }
-        cursorPending.close();
 
-        // Load today's tasks
-        String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                .format(new Date());
-        Cursor cursorToday = db.rawQuery(
-                "SELECT _id, task_name, status FROM tasks WHERE date=?", new String[]{todayDate});
+        // --- 4. Bottom Navigation Listener ---
+        // *** THE MAIN FIX: Set the listener on the BottomAppBar, NOT the BottomNavigationView ***
+        bottomAppBar.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
 
-        String[] from = {"task_name", "status"};
-        int[] to = {android.R.id.text1, android.R.id.text2};
-
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
-                this,
-                android.R.layout.simple_list_item_2,
-                cursorToday,
-                from,
-                to,
-                0
-        );
-        listTodayTasks.setAdapter(adapter);
-    }
-
-    /** Updates the current date & time every second */
-    private void startClock() {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                SimpleDateFormat sdf = new SimpleDateFormat(
-                        "EEEE, MMM dd, yyyy - hh:mm:ss a", Locale.getDefault());
-                String currentDateTime = sdf.format(new Date());
-                textDateTime.setText(currentDateTime);
-                handler.postDelayed(this, 1000);
+            if (itemId == R.id.nav_tasks) {
+                loadFragment(new TasksFragment());
+                return true;
+            } else if (itemId == R.id.nav_reports) {
+                loadFragment(new ReportsFragment()); // Ensure ReportsFragment exists!
+                return true;
             }
+            return false;
+        });
+
+        // --- 5. FAB Listener (This remains the same and is correct) ---
+        fab.setOnClickListener(v -> {
+            // Ensure CreateTaskActivity exists and is registered in Manifest
+            Intent intent = new Intent(DashboardActivity.this, CreateTaskActivity.class);
+            startActivity(intent);
         });
     }
 
+    // --- 6. Top Toolbar Menu Logic (This remains the same and is correct) ---
+
     @Override
-    protected void onDestroy() {
-        handler.removeCallbacksAndMessages(null);
-        if (db != null && db.isOpen()) {
-            db.close();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.nav_settings) {
+            Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show();
+            // Intent intent = new Intent(this, SettingsActivity.class);
+            // startActivity(intent);
+            return true;
         }
-        super.onDestroy();
+        return super.onOptionsItemSelected(item);
+    }
+
+    // --- Helper Method to Switch Fragments (This is correct) ---
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_fragment_container, fragment);
+        transaction.commit();
     }
 }

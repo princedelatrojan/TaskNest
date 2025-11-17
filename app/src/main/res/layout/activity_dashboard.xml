@@ -1,102 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_light_gray"
-    tools:context=".TasksFragment"> <com.google.android.material.card.MaterialCardView
-    android:id="@+id/card_completed"
-    android:layout_width="0dp"
-    android:layout_height="100dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="8dp"
-    app:cardElevation="4dp"
-    app:layout_constraintEnd_toStartOf="@+id/card_pending"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    tools:context=".DashboardActivity">
 
-    <LinearLayout
+    <!-- The AppBar at the top of the screen -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            app:title="TaskNest"
+            app:titleTextColor="@color/text_dark_gray"
+            app:menu="@menu/toolbar_menu" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- The FragmentContainerView that holds your main content -->
+    <!-- It is now anchored to the AppBarLayout and BottomNavigationView -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginBottom="?attr/actionBarSize" />
 
-        <TextView
-            android:id="@+id/txtCompletedTasks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="28sp"
-            android:textColor="@color/primary_blue"
-            android:textStyle="bold" />
+    <!-- A placeholder for the BottomNavigationView to interact correctly with CoordinatorLayout -->
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="10dp"
+        app:fabCradleVerticalOffset="10dp"
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        android:backgroundTint="@android:color/transparent"
+        app:elevation="0dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Completed"
-            android:textColor="@color/text_dark_gray" />
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_pending"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/card_completed"
-        app:layout_constraintTop_toTopOf="@+id/card_completed">
-
-        <LinearLayout
+        <!-- The actual BottomNavigationView is placed inside the BottomAppBar -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/transparent_background"
+            app:itemIconTint="@color/text_medium_gray"
+            app:itemTextColor="@color/text_dark_gray"
+            app:menu="@menu/bottom_nav_menu" />
 
-            <TextView
-                android:id="@+id/txtPendingTasks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="28sp"
-                android:textColor="@color/primary_blue"
-                android:textStyle="bold" />
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pending"
-                android:textColor="@color/text_dark_gray" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <TextView
-        android:id="@+id/title_today_tasks"
+    <!-- The FloatingActionButton, anchored to the BottomAppBar for a clean look -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Today's Tasks"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_dark_gray"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="@+id/card_completed"
-        app:layout_constraintTop_toBottomOf="@+id/card_completed" />
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/primary_blue"
+        app:tint="@color/white"
+        app:layout_anchor="@id/bottom_app_bar"
+        android:contentDescription="Add Task" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_tasks"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:paddingBottom="80dp"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_today_tasks"
-        tools:listitem="@layout/item_task" /> </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

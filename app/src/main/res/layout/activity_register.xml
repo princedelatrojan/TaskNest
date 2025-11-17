@@ -13,8 +13,6 @@
     tools:context=".Register"> <!-- Make sure this context matches your Register.java file's package -->
 
     <!-- Logo Image -->
-
-    <!-- App Name Text -->
     <ImageView
         android:id="@+id/app_logo"
         android:layout_width="60dp"
@@ -23,6 +21,7 @@
         android:contentDescription="TaskNest Logo"
         android:src="@drawable/ic_tasknest_logo" />
 
+    <!-- App Name Text -->
     <TextView
         android:id="@+id/app_name_text"
         android:layout_width="wrap_content"
@@ -139,10 +138,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            androidReadMe: "Already have an account?"
-        android:textColor="@color/text_medium_gray"
-        android:fontFamily="@font/poppins"
-        android:textSize="14sp"/>
+            android:text="Already have an account?"
+            android:textColor="@color/text_medium_gray"
+            android:fontFamily="@font/poppins"
+            android:textSize="14sp"
+        />
 
         <!-- "Log in" Button (styled as a text link) -->
         <Button
@@ -156,7 +156,8 @@
             android:textStyle="bold"
             android:textAllCaps="false"
             android:textSize="14sp"
-            android:layout_marginStart="4dp"/>
+            android:layout_marginStart="4dp"
+            />
 
     </LinearLayout>
 
