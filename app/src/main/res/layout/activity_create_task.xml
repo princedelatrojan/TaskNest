@@ -127,6 +127,7 @@
                 android:buttonTint="@color/priority_high"/>
         </RadioGroup>
 
+        //Button used to save tasks
         <Button
             android:id="@+id/button_save_task"
             android:layout_width="match_parent"
@@ -137,6 +138,17 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:padding="12dp"/>
+
+        //Button to be used to go back to the dashboard
+        <Button
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"/>
+
+
 
     </LinearLayout>
 </ScrollView>

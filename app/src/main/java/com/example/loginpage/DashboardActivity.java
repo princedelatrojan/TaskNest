@@ -54,45 +54,57 @@ public class DashboardActivity extends AppCompatActivity {
 
         // --- 4. Bottom Navigation Listener ---
         // *** THE MAIN FIX: Set the listener on the BottomAppBar, NOT the BottomNavigationView ***
-        bottomAppBar.setOnMenuItemClickListener(item -> {
+        bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
-
             if (itemId == R.id.nav_tasks) {
                 loadFragment(new TasksFragment());
                 return true;
             } else if (itemId == R.id.nav_reports) {
-                loadFragment(new ReportsFragment()); // Ensure ReportsFragment exists!
+                loadFragment(new ReportsFragment());
                 return true;
             }
             return false;
         });
 
+
         // --- 5. FAB Listener (This remains the same and is correct) ---
         fab.setOnClickListener(v -> {
-            // Ensure CreateTaskActivity exists and is registered in Manifest
             Intent intent = new Intent(DashboardActivity.this, CreateTaskActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 100); // 100 is the request code of your choice
         });
+
     }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            // Reload the fragment to show new task!
+            loadFragment(new TasksFragment());
+        }
+    }
+
 
     // --- 6. Top Toolbar Menu Logic (This remains the same and is correct) ---
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.nav_settings) {
-            Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show();
-            // Intent intent = new Intent(this, SettingsActivity.class);
-            // startActivity(intent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if (item.getItemId() == R.id.nav_settings) {
+//            Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show();
+//            // Intent intent = new Intent(this, SettingsActivity.class);
+//            // startActivity(intent);
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     // --- Helper Method to Switch Fragments (This is correct) ---
     private void loadFragment(Fragment fragment) {

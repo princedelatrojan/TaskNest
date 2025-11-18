@@ -98,4 +98,12 @@
         android:paddingTop="12dp"
         android:paddingBottom="12dp"/>
 
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_marginTop="12dp"
+        android:layout_gravity="start"/>
+
 </LinearLayout>

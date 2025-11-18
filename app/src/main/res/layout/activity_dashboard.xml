@@ -24,7 +24,7 @@
             android:background="@color/white"
             app:title="TaskNest"
             app:titleTextColor="@color/text_dark_gray"
-            app:menu="@menu/toolbar_menu" />
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 

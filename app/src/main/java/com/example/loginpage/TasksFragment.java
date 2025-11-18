@@ -97,39 +97,40 @@ public class TasksFragment extends Fragment {
         loadTaskList(); // Calling the new method to fetch the list
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadTaskCounts();
+        loadTaskList();
+    }
+
+
+
     /** (NEW) Loads the actual list of tasks for the RecyclerView */
-    private void loadTaskList() {
+    public void loadTaskList() {
         db.collection("tasks")
                 .whereEqualTo("userId", currentUserId)
-                .whereEqualTo("status", "Pending") // We usually only show Pending tasks in the main list
+                .whereEqualTo("status", "Pending")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        // Clear the old list so we don't get duplicates
-                        taskList.clear();
-
-                        // Convert the Firestore documents directly into your Task objects
-                        // This works because your Task.java fields match the Firestore fields!
-                        List<com.example.loginpage.Task> list = queryDocumentSnapshots.toObjects(com.example.loginpage.Task.class);
-
-                        // Add the new data to our list
-                        taskList.addAll(list);
-
-                        // Tell the adapter "Hey, the data changed, redraw the screen!"
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        // Optional: Handle empty list (maybe show a "No tasks" text)
-                        taskList.clear();
-                        adapter.notifyDataSetChanged();
+                    taskList.clear();
+                    for (com.google.firebase.firestore.DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                        com.example.loginpage.Task task = doc.toObject(com.example.loginpage.Task.class);
+                        if (task != null) {
+                            task.setId(doc.getId()); // CRITICALLY IMPORTANT
+                            taskList.add(task);
+                        }
                     }
+                    adapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Error loading task list", Toast.LENGTH_SHORT).show();
                 });
     }
 
+
     /** Loads the task counts */
-    private void loadTaskCounts() {
+    public void loadTaskCounts() {
         // 1. Get Completed Count
         db.collection("tasks")
                 .whereEqualTo("userId", currentUserId)

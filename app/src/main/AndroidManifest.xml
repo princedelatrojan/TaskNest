@@ -15,6 +15,9 @@
         <activity
             android:name=".CreateTaskActivity"
             android:exported="false" />
+
+        <activity android:name=".EditTaskActivity"/>
+
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" />

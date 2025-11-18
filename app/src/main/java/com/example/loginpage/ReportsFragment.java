@@ -13,12 +13,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ReportsFragment extends Fragment {
 
+
     private TextView textTotalCount, textMotivation;
-    private Button btnSettings;
+//    private Button btnSettings;
 
     private FirebaseFirestore db;
     private String currentUserId;
@@ -42,14 +44,15 @@ public class ReportsFragment extends Fragment {
 
         textTotalCount = view.findViewById(R.id.text_total_count);
         textMotivation = view.findViewById(R.id.text_motivation);
-        btnSettings = view.findViewById(R.id.btn_settings);
+
 
         loadReportData();
 
-        btnSettings.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Settings Clicked", Toast.LENGTH_SHORT).show();
-            // You can add intent to open SettingsActivity here later
-        });
+//        btnSettings.setOnClickListener(v -> {
+//            Toast.makeText(getContext(), "Settings Clicked", Toast.LENGTH_SHORT).show();
+//            // You can add intent to open SettingsActivity here later
+//        });
+
     }
 
     private void loadReportData() {
@@ -62,10 +65,13 @@ public class ReportsFragment extends Fragment {
                     textTotalCount.setText(String.valueOf(total));
 
                     // Calculate Completed for Motivation Text
-                    // (This is a simple version, ideally you filter for this week)
-                    long completed = querySnapshot.getDocuments().stream()
-                            .filter(doc -> "Completed".equals(doc.getString("status")))
-                            .count();
+                    int completed = 0;
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        if ("Completed".equals(doc.getString("status"))) {
+                            completed++;
+                        }
+                    }
+
 
                     int percentage = (total == 0) ? 0 : (int) ((completed * 100) / total);
 

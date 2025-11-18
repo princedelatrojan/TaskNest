@@ -32,17 +32,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return new TaskViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
-        // Get the task for the current row
         Task task = taskList.get(position);
 
-        // Set the text
+        // Remove old listener to avoid unexpected triggers from recycling views
+        holder.checkBox.setOnCheckedChangeListener(null);
+
+        // Set basic view
         holder.textTaskName.setText(task.getTaskName());
         holder.textDueDate.setText(task.getDueDate());
 
-        // Set the Priority Color Indicator
-        // (Assumes you have these colors in colors.xml)
         if ("High".equals(task.getPriority())) {
             holder.priorityIndicator.setBackgroundColor(ContextCompat.getColor(context, R.color.priority_high));
         } else if ("Medium".equals(task.getPriority())) {
@@ -51,9 +52,50 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             holder.priorityIndicator.setBackgroundColor(ContextCompat.getColor(context, R.color.priority_low));
         }
 
-        // Handle Checkbox Logic (Just visual for now)
+        // Set checkbox state
         holder.checkBox.setChecked("Completed".equals(task.getStatus()));
+
+        // --- Listen for checkbox change ---
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Only handle user-initiated changes
+            if (!buttonView.isPressed()) return;
+            String newStatus = isChecked ? "Completed" : "Pending";
+            if (!newStatus.equals(task.getStatus())) {
+                com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                        .collection("tasks")
+                        .document(task.getId())
+                        .update("status", newStatus)
+                        .addOnSuccessListener(aVoid -> {
+                            task.setStatus(newStatus);
+                            notifyItemChanged(position);
+
+                            // Force parent fragment to reload counts and list!
+                            android.app.Activity activity = (android.app.Activity) context;
+                            activity.runOnUiThread(() -> {
+                                // This assumes your fragment container uses R.id.main_fragment_container
+                                if (activity instanceof DashboardActivity) {
+                                    androidx.fragment.app.FragmentManager fm =
+                                            ((DashboardActivity) activity).getSupportFragmentManager();
+                                    androidx.fragment.app.Fragment fragment =
+                                            fm.findFragmentById(R.id.main_fragment_container);
+                                    if (fragment instanceof TasksFragment) {
+                                        ((TasksFragment) fragment).loadTaskCounts();
+                                        ((TasksFragment) fragment).loadTaskList();
+                                    }
+                                }
+                            });
+                        });
+            }
+        });
+
+        // --- Edit on card click ---
+        holder.itemView.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(context, EditTaskActivity.class);
+            intent.putExtra("taskId", task.getId());
+            context.startActivity(intent);
+        });
     }
+
 
     @Override
     public int getItemCount() {

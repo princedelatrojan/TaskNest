@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_light_gray"
-    android:padding="24dp"
-    tools:context=".ReportsFragment">
+    android:padding="24dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +21,7 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <!-- Card for Task Counts -->
+        <!-- Card for total and completed tasks -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,73 +34,35 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:padding="20dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:fontFamily="@font/poppins"
                     android:text="Total Tasks Created"
                     android:textColor="@color/text_dark_gray"
                     android:textSize="16sp" />
 
-                <!-- THIS IS THE TEXTVIEW YOUR JAVA CODE IS LOOKING FOR -->
                 <TextView
                     android:id="@+id/text_total_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_dark_gray"
+                    android:text="0"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:id="@+id/text_motivation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Great job!"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    tools:text="15" />
+                    android:layout_marginTop="12dp"
+                    />
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
-
-        <!-- Card for Motivational Text -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp">
-
-            <!-- THIS IS THE TEXTVIEW YOUR JAVA CODE IS LOOKING FOR -->
-            <TextView
-                android:id="@+id/text_motivation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:padding="24dp"
-                android:textAlignment="center"
-                android:textColor="@color/text_dark_gray"
-                android:textSize="16sp"
-                tools:text="Great job! 75% tasks completed." />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- THIS IS THE BUTTON YOUR JAVA CODE IS LOOKING FOR -->
-        <Button
-            android:id="@+id/btn_settings"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:fontFamily="@font/poppins"
-            android:paddingStart="24dp"
-            android:text="Settings"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textColor="@color/text_dark_gray"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/baseline_arrow_forward_ios_24"
-            app:iconGravity="end"
-            app:iconTint="@color/text_medium_gray"
-            app:strokeColor="@color/border_light_gray"
-            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 </ScrollView>

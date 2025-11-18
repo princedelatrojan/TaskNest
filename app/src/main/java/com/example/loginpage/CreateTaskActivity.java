@@ -87,7 +87,13 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         // --- Save Button Logic ---
         btnSaveTask.setOnClickListener(v -> saveTaskToFirestore());
+
+        Button btnBack = findViewById(R.id.button_back);
+        btnBack.setOnClickListener(v -> finish());
     }
+
+
+
 
     private void saveTaskToFirestore() {
         String name = inputTaskName.getText().toString().trim();
@@ -129,9 +135,11 @@ public class CreateTaskActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(CreateTaskActivity.this, "Task Saved!", Toast.LENGTH_SHORT).show();
-                        finish(); // Close activity and go back to Dashboard
+                        setResult(RESULT_OK);  // <-- Add this line!
+                        finish();
                     }
                 })
+
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {

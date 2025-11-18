@@ -1,6 +1,7 @@
 package com.example.loginpage; // Or com.example.tasknest
 
 public class Task {
+    private String id;     // This holds the Firestore document ID
     private String taskId;     // We need this to update/delete later
     private String taskName;
     private String dueDate;
@@ -10,6 +11,28 @@ public class Task {
 
     // 1. Empty Constructor (REQUIRED for Firebase to read data)
     public Task() {}
+
+    private String description;
+    private long timestamp;
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public long getTimestamp() { return timestamp; }
+    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
+
+
+
+    // --- Add these getter and setter for ID ---
+
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
     // 2. Full Constructor (To create new tasks easily)
     public Task(String taskId, String taskName, String dueDate, String priority, String status, String userId) {
