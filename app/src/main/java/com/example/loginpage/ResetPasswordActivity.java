@@ -1,89 +1,54 @@
-
 package com.example.loginpage;
 
-import android.content.ContentValues;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.EditText;import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
-    private SQLiteDatabase db;
+    private EditText inputEmail;
+    private Button btnReset, btnBack;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_reset_password);
+        setContentView(R.layout.activity_reset_password); // Make sure you have this layout file
 
-        MyDbHelper dbHelper = new MyDbHelper(this, "login.db", null, 1);
-        db = dbHelper.getWritableDatabase();
+        inputEmail = findViewById(R.id.input_userEmail); // Use the ID from your layout
+        btnReset = findViewById(R.id.btn_reset_password); // Use the ID from your layout
+        btnBack = findViewById(R.id.btn_back); // Use the ID from your layout
 
-        EditText newPassword = findViewById(R.id.input_new_password);
+        mAuth = FirebaseAuth.getInstance();
 
-        EditText confirmNewPassword = findViewById(R.id.input_confirm_new_password);
+        btnBack.setOnClickListener(v -> finish());
 
-        String emailText = getIntent().getStringExtra("userEmail");
+        btnReset.setOnClickListener(v -> {
+            String email = inputEmail.getText().toString().trim();
 
-
-        Button resetPassword = findViewById(R.id.button_reset_password);
-        resetPassword.setOnClickListener(v -> {
-            String nPassword = newPassword.getText().toString();
-            String cPassword = confirmNewPassword.getText().toString();
-
-            if(nPassword.isEmpty() && cPassword.isEmpty()) {
-                Toast.makeText(this, "Please Enter and confirm your Password", Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(!nPassword.equals(cPassword)) {
-                Toast.makeText(this, "Password does not match", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(updatePasswordInDatabase(emailText, nPassword)) {
-                Intent intent = new Intent(ResetPasswordActivity.this, MainActivity.class);
-                startActivity(intent);
-                Toast.makeText(this, "Password Updated Successfully", Toast.LENGTH_SHORT).show();
-                return;
-            } else {
-                Toast.makeText(this, "Error Updating Password", Toast.LENGTH_SHORT).show();
-            }
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(ResetPasswordActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                            finish(); // Close the activity
+                        } else {
+                            Toast.makeText(ResetPasswordActivity.this, "Failed to send reset email: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
         });
-
-
-    }
-
-    private boolean updatePasswordInDatabase(String emailText, String nPassword) {
-        if (db == null ) {
-            Log.e("Database Error", "Database is null");
-        }
-
-        ContentValues values = new ContentValues();
-        values.put("password", nPassword);
-
-        int rowsAffected = db.update(
-                "users",
-                values,
-                "userEmail = ?",
-                new String[]{emailText});
-        return rowsAffected>0;
-    }
-
-    protected void onDestroy() {
-        super.onDestroy();
-        if (db != null && db.isOpen()) {
-            db.close();
-        }
-
     }
 }

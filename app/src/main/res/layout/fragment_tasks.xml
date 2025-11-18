@@ -1,194 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_light_gray"
-    android:padding="24dp">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".TasksFragment">
 
+    <!-- Header Section with Date and Time -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Task summary"
-            android:textColor="@color/text_dark_gray"
+            android:text="Welcome Back!"
             android:textSize="24sp"
             android:textStyle="bold"
             android:fontFamily="@font/poppins"
-            android:layout_marginBottom="24dp"
-            android:layout_gravity="center"/>
+            android:textColor="@color/text_dark_gray"/>
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/toggle_time_filter"
-            android:layout_width="match_parent"
+        <!-- THIS IS THE MISSING TEXTVIEW FOR THE CLOCK -->
+        <TextView
+            android:id="@+id/textDateTime"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            app:singleSelection="true"
-            app:selectionRequired="true"
-            app:checkedButton="@id/btn_week">
+            android:textSize="14sp"
+            android:textColor="@color/text_medium_gray"
+            tools:text="Monday, Nov 17, 2025 - 10:30:45 AM"/>
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_day"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Day"
-                android:textAllCaps="false" />
+    <!-- Task Summary Cards -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
 
-            <Button
-                android:id="@+id/btn_week"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Week"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_month"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Month"
-                android:textAllCaps="false" />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
+        <!-- Completed Tasks Card -->
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/border_light_gray"
-            app:strokeWidth="1dp"
-            android:layout_marginBottom="24dp">
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Total Tasks"
-                        android:textSize="16sp"
-                        android:textColor="@color/text_dark_gray"
-                        android:fontFamily="@font/poppins"/>
-                    <TextView
-                        android:id="@+id/text_total_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_dark_gray"/>
-                </LinearLayout>
+                    android:text="Completed"
+                    android:textColor="@color/status_completed"
+                    android:textSize="14sp"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/border_light_gray"
-                    android:layout_marginBottom="16dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <!-- THIS IS THE MISSING TEXTVIEW FOR COMPLETED COUNT -->
+                <TextView
+                    android:id="@+id/txtCompletedTasks"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Completed"
-                        android:textSize="16sp"
-                        android:textColor="@color/text_dark_gray"
-                        android:fontFamily="@font/poppins"/>
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_check_circle"
-                        app:tint="@color/status_completed"
-                        android:contentDescription="Completed icon"/>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/border_light_gray"
-                    android:layout_marginBottom="16dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Pending"
-                        android:textSize="16sp"
-                        android:textColor="@color/text_dark_gray"
-                        android:fontFamily="@font/poppins"/>
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_cancel"
-                        app:tint="@color/status_pending"
-                        android:contentDescription="Pending icon"/>
-                </LinearLayout>
-
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_dark_gray"
+                    tools:text="5"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Pending Tasks Card -->
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp"
-            app:cardBackgroundColor="@color/white"
-            android:layout_marginBottom="32dp">
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp">
 
-            <TextView
-                android:id="@+id/text_motivation"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Great job! 0% tasks completed this week."
-                android:padding="24dp"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textColor="@color/text_dark_gray"
-                android:fontFamily="@font/poppins"/>
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pending"
+                    android:textColor="@color/status_pending"
+                    android:textSize="14sp"/>
+
+                <!-- THIS IS THE MISSING TEXTVIEW FOR PENDING COUNT -->
+                <TextView
+                    android:id="@+id/txtPendingTasks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_dark_gray"
+                    tools:text="3"/>
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
-        <Button
-            android:id="@+id/btn_settings"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Settings"
-            android:textAlignment="textStart"
-            android:textColor="@color/text_dark_gray"
-            android:textAllCaps="false"
-            android:paddingStart="24dp"
-            app:icon="@drawable/baseline_arrow_forward_ios_24"
-            app:iconGravity="end"
-            app:iconTint="@color/text_medium_gray"
-            app:strokeColor="@color/border_light_gray"
-            app:cornerRadius="12dp"/>
-
     </LinearLayout>
-</ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Pending Tasks"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/text_dark_gray"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- THIS IS THE MISSING RECYCLERVIEW FOR THE TASK LIST -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_tasks"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/task_item" />
+
+</LinearLayout>
